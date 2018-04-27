@@ -19,12 +19,6 @@ WORKDIR /var/www/symfony
 # Prevent Symfony Flex from generating a project ID at build time
 ARG SYMFONY_SKIP_REGISTRATION=1
 
-# Prevent the reinstallation of vendors at every changes in the source code
-COPY composer.json composer.lock ./
-RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress --no-suggest \
-	&& composer clear-cache
-
-
 RUN apt-get update -q && \
     apt-get install -qy software-properties-common language-pack-en-base && \
     export LC_ALL=en_US.UTF-8 && \
