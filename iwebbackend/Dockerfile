@@ -29,14 +29,13 @@ RUN apk add --update && \
         wget \
         libxml2 \
         unzip && \
-
     apk del .build-deps
 
 # composer install
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install php extensions
-RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql soap zip && \
+RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql zip && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
 COPY /php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
