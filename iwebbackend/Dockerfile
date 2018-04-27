@@ -27,7 +27,7 @@ RUN apk add --update && \
         supervisor \
         tzdata \
         wget \
-        libxml2-dev \
+        libxml2 \
         unzip && \
 
     apk del .build-deps
