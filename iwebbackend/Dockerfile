@@ -21,22 +21,13 @@ ARG SYMFONY_SKIP_REGISTRATION=1
 
 RUN apk add --update && \
         apk add --no-cache --virtual .build-deps \
-        cron \
         curl \
         nano \
         git \
-        php-apcu \
-        php-uuid \
-        redis-server \
         supervisor \
         tzdata \
         wget \
-        unzip \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        zlib1g-dev \
-        wkhtmltopdf && \
+        unzip && \
 
     apk del .build-deps \
 
