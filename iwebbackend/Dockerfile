@@ -43,6 +43,7 @@ RUN apt-get update -q && \
         supervisor \
         tzdata \
         wget \
+        unzip \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
@@ -60,7 +61,6 @@ RUN apt-get install -y \
     && docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql soap zip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
-
 COPY . ./
 
 RUN mkdir -p var/cache var/logs var/sessions \
@@ -69,11 +69,6 @@ RUN mkdir -p var/cache var/logs var/sessions \
 
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
-
-# Install git, unzip and wget
-RUN apt-get install -y git unzip wget && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
 
 # Install phpunit
 RUN wget https://phar.phpunit.de/phpunit-6.8.phar \
