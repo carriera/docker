@@ -29,22 +29,15 @@ RUN apk add --update && \
         wget \
         unzip && \
 
-    apk del .build-deps \
+    apk del .build-deps
 
-    cp /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && echo "Europe/Warsaw" > /etc/timezone && \
-
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# composer install
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install php extensions
 RUN apt-get install -y \
     && docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql soap zip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-
-COPY . ./
-
-RUN mkdir -p var/cache var/logs var/sessions \
-	&& composer dump-autoload --classmap-authoritative --no-dev \
-	&& chown -R www-data var
 
 COPY /php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
