@@ -54,11 +54,9 @@ COPY /php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
 # Install phpunit
-RUN wget https://phar.phpunit.de/phpunit-6.8.phar \
-    && chmod +x phpunit-6.8.phar \
-    && mv phpunit-6.8.phar /usr/local/bin/phpunit
-
-RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
+RUN wget -O phpunit https://phar.phpunit.de/phpunit-7.phar \
+    && chmod +x phpunit \
+    && mv phpunit /usr/local/bin/
 
 WORKDIR /var/www/symfony
 
@@ -66,3 +64,4 @@ ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 EXPOSE 9000
+
