@@ -19,7 +19,8 @@ WORKDIR /var/www/symfony
 # Prevent Symfony Flex from generating a project ID at build time
 ARG SYMFONY_SKIP_REGISTRATION=1
 
-RUN apk add --no-cache --virtual .build-deps \
+RUN apk add --update && \
+        apk add --no-cache --virtual .build-deps \
         cron \
         curl \
         nano \
