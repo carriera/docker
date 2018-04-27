@@ -14,7 +14,7 @@ RUN apk add --no-cache git
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY php/php.ini /usr/local/etc/php/php.ini
 
-WORKDIR /var/www/symfony
+WORKDIR /var/www/html
 
 # Prevent Symfony Flex from generating a project ID at build time
 ARG SYMFONY_SKIP_REGISTRATION=1
@@ -57,8 +57,6 @@ RUN chmod +x /usr/local/bin/docker-entrypoint
 RUN wget -O phpunit https://phar.phpunit.de/phpunit-7.phar \
     && chmod +x phpunit \
     && mv phpunit /usr/local/bin/
-
-WORKDIR /var/www/symfony
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
