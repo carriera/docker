@@ -19,14 +19,7 @@ WORKDIR /var/www/symfony
 # Prevent Symfony Flex from generating a project ID at build time
 ARG SYMFONY_SKIP_REGISTRATION=1
 
-RUN apt-get update -q && \
-    apt-get install -qy software-properties-common language-pack-en-base && \
-    export LC_ALL=en_US.UTF-8 && \
-    export LANG=en_US.UTF-8 && \
-    add-apt-repository -y ppa:ondrej/php && \
-    apt-get update -q && \
-    apt-get install --no-install-recommends -qy \
-        ca-certificates \
+RUN apk add --no-cache --virtual .build-deps \
         cron \
         curl \
         nano \
@@ -44,7 +37,7 @@ RUN apt-get update -q && \
         zlib1g-dev \
         wkhtmltopdf && \
 
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    apk del .build-deps \
 
     cp /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && echo "Europe/Warsaw" > /etc/timezone && \
 
