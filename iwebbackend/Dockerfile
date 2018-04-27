@@ -21,15 +21,27 @@ ARG SYMFONY_SKIP_REGISTRATION=1
 
 RUN apk add --update && \
         apk add --no-cache --virtual .build-deps \
+        vim \
         curl \
-        nano \
+        bash \
         git \
         supervisor \
         tzdata \
         wget \
-        libxml2-dev \
+        libxml2 \
+        zlib \
+        libpng \
+        freetype \
+        libjpeg-turbo \
+        libmcrypt \
         unzip && \
     apk del .build-deps
+
+RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
+        libxml2-dev curl-dev freetype-dev openssl-dev \
+        libjpeg-turbo-dev libpng-dev libwebp-dev libmcrypt-dev \
+        gmp-dev icu-dev libmemcached-dev linux-headers" \
+    && apk --update add $buildDeps
 
 # composer install
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
