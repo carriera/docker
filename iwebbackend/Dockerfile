@@ -12,7 +12,7 @@ ENV LANG="en_US.UTF-8" \
 RUN apk add --no-cache git
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY docker/php/php.ini /usr/local/etc/php/php.ini
+COPY php/php.ini /usr/local/etc/php/php.ini
 
 WORKDIR /var/www/symfony
 
@@ -67,7 +67,7 @@ RUN mkdir -p var/cache var/logs var/sessions \
 	&& composer dump-autoload --classmap-authoritative --no-dev \
 	&& chown -R www-data var
 
-COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY /php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
 # Install phpunit
