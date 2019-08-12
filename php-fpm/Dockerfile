@@ -1,5 +1,5 @@
-ARG PHP_VERSION=7.2
-ARG ALPINE_VERSION=3.7
+ARG PHP_VERSION=7.4-rc
+ARG ALPINE_VERSION=3.10
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION}
 
 ENV LANG="en_US.UTF-8" \
@@ -9,10 +9,10 @@ ENV LANG="en_US.UTF-8" \
     DEBIAN_FRONTEND="noninteractive" \
     COMPOSER_ALLOW_SUPERUSER=1
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git oniguruma-dev libzip-dev
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY php/php.ini /usr/local/etc/php/php.ini
+COPY etc/php.ini /usr/local/etc/php/php.ini
 
 WORKDIR /var/www/html
 
@@ -43,14 +43,11 @@ RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
         gmp-dev icu-dev libmemcached-dev linux-headers" \
     && apk --update add $buildDeps
 
-# composer install
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Install php extensions
 RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
-COPY /php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY /etc/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
 # Install phpunit
@@ -62,4 +59,3 @@ ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 EXPOSE 9000
-
