@@ -44,7 +44,7 @@ RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
     && apk --update add $buildDeps
 
 # Install php extensions
-RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip && \
+RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
 COPY /etc/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
