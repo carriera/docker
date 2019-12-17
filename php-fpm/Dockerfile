@@ -32,8 +32,6 @@ RUN apk add --update && \
         libxml2 \
         zlib \
         libpng \
-        freetype \
-        libjpeg-turbo \
         libmcrypt \
         unzip && \
     apk del .build-deps
@@ -46,7 +44,7 @@ RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
 
 # Install php extensions
 RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap && \
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+    docker-php-ext-configure gd
 
 COPY /etc/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
