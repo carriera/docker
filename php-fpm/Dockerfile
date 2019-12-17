@@ -14,7 +14,7 @@ RUN apk add --no-cache git oniguruma-dev libzip-dev
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY etc/php.ini /usr/local/etc/php/php.ini
 
-ARG WORKDIR=/var/www/html
+ARG WORKDIR
 WORKDIR ${WORKDIR}
 
 # Prevent Symfony Flex from generating a project ID at build time
