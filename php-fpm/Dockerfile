@@ -32,7 +32,8 @@ RUN apk add --update && \
         zlib \
         libpng \
         libmcrypt \
-        unzip && \
+        unzip \
+        wkhtmltopdf && \
     apk del .build-deps
 
 RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
