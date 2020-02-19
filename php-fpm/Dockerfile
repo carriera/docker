@@ -9,7 +9,7 @@ ENV LANG="en_US.UTF-8" \
     DEBIAN_FRONTEND="noninteractive" \
     COMPOSER_ALLOW_SUPERUSER=1
 
-RUN apk add --no-cache git oniguruma-dev libzip-dev
+RUN apk add --no-cache git oniguruma-dev libzip-dev bash wkhtmltopdf
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY etc/php.ini /usr/local/etc/php/php.ini
@@ -23,7 +23,6 @@ RUN apk add --update && \
         apk add --no-cache --virtual .build-deps \
         vim \
         curl \
-        bash \
         git \
         supervisor \
         tzdata \
@@ -32,8 +31,7 @@ RUN apk add --update && \
         zlib \
         libpng \
         libmcrypt \
-        unzip \
-        wkhtmltopdf && \
+        unzip && \
     apk del .build-deps
 
 RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
