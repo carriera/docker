@@ -9,7 +9,7 @@ ENV LANG="en_US.UTF-8" \
     DEBIAN_FRONTEND="noninteractive" \
     COMPOSER_ALLOW_SUPERUSER=1
 
-RUN apk add --no-cache git oniguruma-dev libzip-dev bash wkhtmltopdf rsync
+RUN apk add --no-cache git oniguruma-dev libzip-dev bash wkhtmltopdf rsync openssh-client
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY etc/php.ini /usr/local/etc/php/php.ini
