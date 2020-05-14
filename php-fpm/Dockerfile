@@ -11,8 +11,6 @@ ENV LANG="en_US.UTF-8" \
 
 RUN apk add --no-cache git oniguruma-dev libzip-dev bash wkhtmltopdf rsync openssh-client rabbitmq-c rabbitmq-c-dev
 
-RUN pecl install amqp-1.9.3
-
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY etc/php.ini /usr/local/etc/php/php.ini
 
@@ -41,6 +39,8 @@ RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
         libjpeg-turbo-dev libpng-dev libwebp-dev libmcrypt-dev \
         gmp-dev icu-dev libmemcached-dev linux-headers" \
     && apk --update add $buildDeps
+
+RUN pecl install amqp
 
 # Install php extensions
 RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap sockets && \
