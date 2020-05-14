@@ -11,6 +11,8 @@ ENV LANG="en_US.UTF-8" \
 
 RUN apk add --no-cache git oniguruma-dev libzip-dev bash wkhtmltopdf rsync openssh-client rabbitmq-c rabbitmq-c-dev
 
+RUN pecl install amqp-1.9.3
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY etc/php.ini /usr/local/etc/php/php.ini
 
