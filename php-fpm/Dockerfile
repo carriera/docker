@@ -31,8 +31,12 @@ RUN apk add --update && \
         zlib \
         libpng \
         libmcrypt \
-        unzip && \
+        unzip \
+        rabbitmq-c \
+        rabbitmq-c-dev && \
+        pecl install amqp && \
     apk del .build-deps
+    
 
 RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
         libxml2-dev curl-dev freetype-dev openssl-dev \
@@ -42,7 +46,8 @@ RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
 
 # Install php extensions
 RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap sockets && \
-    docker-php-ext-configure gd
+    docker-php-ext-configure gd && \
+    docker-php-ext-enable amqp
 
 COPY /etc/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
