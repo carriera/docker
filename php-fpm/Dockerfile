@@ -9,7 +9,9 @@ ENV LANG="en_US.UTF-8" \
     DEBIAN_FRONTEND="noninteractive" \
     COMPOSER_ALLOW_SUPERUSER=1
 
-RUN apk add --no-cache git oniguruma-dev libzip-dev bash wkhtmltopdf rsync openssh-client
+RUN apk add --no-cache git oniguruma-dev libzip-dev bash wkhtmltopdf rsync openssh-client rabbitmq-c rabbitmq-c-dev
+
+RUN pecl install amqp
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY etc/php.ini /usr/local/etc/php/php.ini
@@ -31,12 +33,8 @@ RUN apk add --update && \
         zlib \
         libpng \
         libmcrypt \
-        unzip \
-        rabbitmq-c \
-        rabbitmq-c-dev && \
-        pecl install amqp && \
+        unzip && \
     apk del .build-deps
-    
 
 RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
         libxml2-dev curl-dev freetype-dev openssl-dev \
