@@ -55,8 +55,9 @@ RUN wget -O phpunit https://phar.phpunit.de/phpunit-7.phar \
     && chmod +x phpunit \
     && mv phpunit /usr/local/bin/
 
-# Install Symfony CLI
-RUN wget https://get.symfony.com/cli/installer -O - | bash
+# Symfony CLI
+RUN wget https://get.symfony.com/cli/installer -O - | bash && \
+  mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
