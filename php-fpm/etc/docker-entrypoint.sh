@@ -12,11 +12,11 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'bin/console' ]; then
 		php bin/console assets:install
 		php bin/console doctrine:schema:update -f
 		[ -f .messenger_enabled ] && symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async
-		[ -f .crontab ] && crontab .crontab 
+		[ -f .crontab ] && crontab .crontab && crond -f -L /dev/stdout &
 	fi
 
 	# Permissions hack because setfacl does not work on Mac and Windows
 	chown -R www-data var
 fi
 
-crond -f -L /dev/stdout && exec docker-php-entrypoint "$@" 
+exec docker-php-entrypoint "$@" 
