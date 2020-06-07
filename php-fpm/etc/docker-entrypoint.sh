@@ -8,6 +8,9 @@ fi
 
 if [ "$1" = 'php-fpm' ] || [ "$1" = 'bin/console' ]; then
 	if [ "$APP_ENV" != 'prod' ]; then
+		symfony serve --allow-http --no-tls --port=8000
+		[ -f .messenger_enabled ] && symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async
+	else
 		composer install --prefer-dist --no-progress --no-suggest --no-interaction
 		php bin/console assets:install
 		php bin/console doctrine:schema:update -f
