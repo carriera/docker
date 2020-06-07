@@ -8,10 +8,8 @@ fi
 
 if [ "$1" = 'php-fpm' ] || [ "$1" = 'bin/console' ]; then
 	if [ "$APP_ENV" != 'prod' ]; then
-		USED_ID=`id -u` 
-		GROUP_ID=`id -g`
-		groupadd -f --gid $GROUP_ID user
-		adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
+		groupadd -f --gid 33 user
+		adduser --disabled-password --gecos '' --uid 33 --gid 33 user
 		symfony serve --allow-http --no-tls --port=8000
 		[ -f .messenger_enabled ] && symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async
 	else
