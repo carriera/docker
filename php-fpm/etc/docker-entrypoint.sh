@@ -9,8 +9,8 @@ fi
 if [ "$1" = 'php-fpm' ] || [ "$1" = 'bin/console' ]; then
 	if [ "$APP_ENV" != 'prod' ]; then
 		adduser -S -D -H _www && addgroup -S _www && mkdir var/log && touch var/log/dev.log
-		symfony serve --allow-http --no-tls --port=8000
 		[ -f .messenger_enabled ] && symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async
+		symfony serve --allow-http --no-tls --port=8000
 	else
 		composer install --prefer-dist --no-progress --no-suggest --no-interaction
 		php bin/console assets:install
