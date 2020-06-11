@@ -43,7 +43,7 @@ RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
 RUN pecl install amqp
 
 # Install php extensions
-RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap sockets && \
+RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap sockets mcrypt && \
     docker-php-ext-configure gd && \
     docker-php-ext-enable amqp
 
