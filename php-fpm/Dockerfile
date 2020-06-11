@@ -40,7 +40,7 @@ RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
         gmp-dev icu-dev libmemcached-dev linux-headers" \
     && apk --update add $buildDeps
 
-RUN pecl install amqp mcrypt <<<''
+RUN printf "yes\n" | pecl install amqp mcrypt
 
 # Install php extensions
 RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap sockets && \
