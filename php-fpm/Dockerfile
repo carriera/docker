@@ -40,12 +40,12 @@ RUN buildDeps=" build-base re2c file readline-dev autoconf binutils bison \
         gmp-dev icu-dev libmemcached-dev linux-headers" \
     && apk --update add $buildDeps
 
-RUN pecl install amqp
+RUN pecl install amqp libmcrypt
 
 # Install php extensions
-RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap sockets mcrypt && \
+RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap sockets && \
     docker-php-ext-configure gd && \
-    docker-php-ext-enable amqp
+    docker-php-ext-enable amqp mcrypt
 
 COPY /etc/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
