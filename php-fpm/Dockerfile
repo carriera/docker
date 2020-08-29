@@ -62,6 +62,6 @@ RUN wget https://get.symfony.com/cli/installer -O - | bash && \
   mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
 ENTRYPOINT ["docker-entrypoint"]
-CMD ["php-fpm"]
+CMD ["/usr/bin/supervisord"]
 
 EXPOSE 9000
