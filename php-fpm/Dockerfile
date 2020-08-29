@@ -52,6 +52,9 @@ RUN docker-php-ext-install -j$(nproc) iconv mbstring pdo_mysql xml zip soap sock
 COPY /etc/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
+# Install supervisor
+RUN apk update && apk add --no-cache supervisor openssh nginx
+
 # Install phpunit
 RUN wget -O phpunit https://phar.phpunit.de/phpunit-7.phar \
     && chmod +x phpunit \
