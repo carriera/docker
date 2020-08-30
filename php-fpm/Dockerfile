@@ -13,6 +13,7 @@ RUN apk add --no-cache git oniguruma-dev libzip-dev bash wkhtmltopdf rsync opens
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY etc/php.ini /usr/local/etc/php/php.ini
+COPY etc/supervisord.conf /etc/supervisord.conf
 
 WORKDIR /var/www/html
 
@@ -64,7 +65,7 @@ RUN wget -O phpunit https://phar.phpunit.de/phpunit-7.phar \
 RUN wget https://get.symfony.com/cli/installer -O - | bash && \
   mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
-ENTRYPOINT ["docker-entrypoint"]
-CMD ["/usr/bin/supervisord"]
+#ENTRYPOINT ["docker-entrypoint"]
+CMD ["supervisord"]
 
 EXPOSE 9000
