@@ -66,6 +66,6 @@ RUN wget https://get.symfony.com/cli/installer -O - | bash && \
   mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
 #ENTRYPOINT ["docker-entrypoint"]
-CMD ["supervisord"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
 EXPOSE 9000
